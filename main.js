@@ -1,4 +1,3 @@
-// Конфигурация фигур
 const shapesConfig = {
     square: {
         id: 'square',
@@ -37,14 +36,12 @@ const shapesConfig = {
     }
 };
 
-// Инициализация начальных позиций
 function initializeShapes() {
     Object.values(shapesConfig).forEach(shapeConfig => {
         moveShapeRandom(shapeConfig.id);
     });
 }
 
-// Получение случайного размера для фигуры
 function getRandomSize(shapeId) {
     const config = shapesConfig[shapeId];
     
@@ -58,7 +55,6 @@ function getRandomSize(shapeId) {
     }
 }
 
-// Получение случайного поворота для фигуры
 function getRandomRotation(shapeId) {
     if (shapeId === 'circle') return 0;
     
@@ -66,7 +62,6 @@ function getRandomRotation(shapeId) {
     return rotations[Math.floor(Math.random() * rotations.length)];
 }
 
-// Применение трансформации к фигуре
 function applyTransformation(shapeId, rotation, size) {
     const shape = document.getElementById(shapeId);
     const config = shapesConfig[shapeId];
@@ -78,7 +73,6 @@ function applyTransformation(shapeId, rotation, size) {
         newStyles.width = `${size.width}px`;
         newStyles.height = `${size.height}px`;
     } else if (shapeId === 'triangle') {
-        // Для треугольника меняем размер через border
         const baseSize = size.size / 2;
         shape.style.borderLeftWidth = `${baseSize}px`;
         shape.style.borderRightWidth = `${baseSize}px`;
@@ -91,13 +85,11 @@ function applyTransformation(shapeId, rotation, size) {
     
     shape.style.transform = transform;
     
-    // Применяем стили размеров
     Object.keys(newStyles).forEach(key => {
         shape.style[key] = newStyles[key];
     });
 }
 
-// Перемещение фигуры в случайное положение с трансформацией
 function moveShapeRandom(shapeId) {
     const shape = document.getElementById(shapeId);
     const top = Math.random() * 80 + 10;
@@ -113,14 +105,12 @@ function moveShapeRandom(shapeId) {
     applyTransformation(shapeId, rotation, size);
 }
 
-// Перемещение всех фигур в случайные положения
 function moveShapesRandom() {
     Object.keys(shapesConfig).forEach(shapeId => {
         moveShapeRandom(shapeId);
     });
 }
 
-// Перемещение всех фигур в центр
 function moveShapesToCenter() {
     const centerOffset = 50;
     
@@ -137,7 +127,6 @@ function moveShapesToCenter() {
     });
 }
 
-// Перемещение фигур в углы (по одной в каждом углу)
 function moveShapesToCorners() {
     const corners = [
         { top: '15%', left: '15%' },
@@ -163,7 +152,6 @@ function moveShapesToCorners() {
     });
 }
 
-// Функции калькулятора
 function appendCharacter(char) {
     const result = document.getElementById('result');
     result.value += char;
@@ -187,14 +175,11 @@ function calculateResult() {
     }
 }
 
-// Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     initializeShapes();
     
-    // Добавляем обработчики для мобильных устройств
     const calcButtons = document.querySelectorAll('.calc-btn');
     calcButtons.forEach(button => {
-        // Обработчик для touch устройств
         button.addEventListener('touchstart', function(e) {
             e.preventDefault();
             this.style.transform = 'scale(0.95)';
@@ -210,3 +195,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
