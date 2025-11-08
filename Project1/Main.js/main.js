@@ -220,21 +220,3 @@ function calculateResult() {
         moveShapesToCorners();
     }
 }
-
-// Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    initializeShapes();
-    
-    // Добавляем обработчики ко всем кнопкам калькулятора
-    const calcButtons = document.querySelectorAll('.calc-btn');
-    calcButtons.forEach(button => {
-        // Пропускаем кнопки C и =, так как у них своя логика
-        if (!button.textContent.includes('C') && !button.textContent.includes('=')) {
-            const originalOnclick = button.getAttribute('onclick');
-            if (originalOnclick) {
-                button.setAttribute('onclick', originalOnclick);
-            }
-        }
-    });
-
-});
