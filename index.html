@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="main.js" defer></script>
+    <script src="mobile-fixes.js" defer></script>
+    <style>
+        .shape {
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 60px solid rgba(147, 51, 234, 0.3);
+        }
+        
+        /* Адаптивные стили для мобильных устройств */
+        @media (max-width: 640px) {
+            .calculator-container {
+                width: 95% !important;
+                max-width: 320px !important;
+                padding: 1rem !important;
+            }
+            .calc-btn {
+                min-height: 50px !important;
+                font-size: 1.1rem !important;
+            }
+            #result {
+                font-size: 1.5rem !important;
+                padding: 0.75rem !important;
+            }
+        }
+        
+        /* Предотвращение масштабирования при двойном тапе на iOS */
+        button {
+            touch-action: manipulation;
+        }
+    </style>
+    <title>Calculator</title>
+</head>
+<body class="bg-blue-100 flex justify-center items-center min-h-screen p-4">
+    <div class="relative w-full min-h-screen overflow-hidden flex items-center justify-center">
+        <div id="shapes-container" class="absolute inset-0 z-0">
+            <!-- Квадрат -->
+            <div id="square" class="shape absolute w-24 h-24 bg-red-500 rounded-lg opacity-30"></div>
+            <!-- Круг -->
+            <div id="circle" class="shape absolute w-20 h-20 bg-blue-500 rounded-full opacity-30"></div>
+            <!-- Треугольник -->
+            <div id="triangle" class="shape triangle absolute"></div>
+            <!-- Прямоугольник -->
+            <div id="rectangle" class="shape absolute w-32 h-16 bg-green-500 opacity-30 rounded-lg"></div>
+        </div>
+
+        <div class="relative z-10 flex flex-col items-center w-full">
+            <div class="calculator-container bg-blue-300 p-6 sm:p-8 rounded-lg shadow-xl border-2 border-blue-400 w-full max-w-sm sm:max-w-md mx-auto">
+                <input type="text" id="result" class="w-full bg-blue-200 text-right p-3 sm:p-4 mb-4 rounded-lg border border-blue-400 focus:outline-none text-xl sm:text-2xl font-semibold" placeholder="0" readonly/>
+                
+                <div class="grid grid-cols-4 gap-2 sm:gap-3">
+                    <button class="calc-btn bg-blue-400 hover:bg-blue-500 active:bg-blue-600 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="appendCharacter('1')">1</button>
+                    <button class="calc-btn bg-blue-400 hover:bg-blue-500 active:bg-blue-600 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="appendCharacter('2')">2</button>
+                    <button class="calc-btn bg-blue-400 hover:bg-blue-500 active:bg-blue-600 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="appendCharacter('3')">3</button>
+                    <button class="calc-btn bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="appendCharacter('/')">/</button>
+                    
+                    <button class="calc-btn bg-blue-400 hover:bg-blue-500 active:bg-blue-600 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="appendCharacter('4')">4</button>
+                    <button class="calc-btn bg-blue-400 hover:bg-blue-500 active:bg-blue-600 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="appendCharacter('5')">5</button>
+                    <button class="calc-btn bg-blue-400 hover:bg-blue-500 active:bg-blue-600 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="appendCharacter('6')">6</button>
+                    <button class="calc-btn bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="appendCharacter('*')">*</button>
+                    
+                    <button class="calc-btn bg-blue-400 hover:bg-blue-500 active:bg-blue-600 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="appendCharacter('7')">7</button>
+                    <button class="calc-btn bg-blue-400 hover:bg-blue-500 active:bg-blue-600 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="appendCharacter('8')">8</button>
+                    <button class="calc-btn bg-blue-400 hover:bg-blue-500 active:bg-blue-600 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="appendCharacter('9')">9</button>
+                    <button class="calc-btn bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="appendCharacter('-')">-</button>
+                    
+                    <button class="calc-btn bg-blue-400 hover:bg-blue-500 active:bg-blue-600 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="appendCharacter('0')">0</button>
+                    <button class="calc-btn bg-red-400 hover:bg-red-500 active:bg-red-600 text-red-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="clearResult()">C</button>
+                    <button class="calc-btn bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="calculateResult()">=</button>
+                    <button class="calc-btn bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-blue-800 font-bold py-3 sm:py-2 px-2 sm:px-4 rounded transition-all duration-150 hover:scale-105 active:scale-95 touch-manipulation" onclick="appendCharacter('+')">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
