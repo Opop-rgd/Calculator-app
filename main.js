@@ -1,31 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-    initializeShapes();
-    
-    // Предотвращение масштабирования при двойном тапе на кнопках
-    const calcButtons = document.querySelectorAll('.calc-btn');
-    calcButtons.forEach(button => {
-        button.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            this.style.transform = 'scale(0.95)';
-        });
-        
-        button.addEventListener('touchend', function(e) {
-            e.preventDefault();
-            this.style.transform = 'scale(1)';
-        });
-        
-        button.addEventListener('touchcancel', function() {
-            this.style.transform = 'scale(1)';
-        });
-    });
-    
-    // Предотвращение выделения текста при долгом нажатии
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-        return false;
-    });
-});
-
 // Конфигурация фигур
 const shapesConfig = {
     square: {
@@ -168,15 +140,13 @@ function moveShapesToCenter() {
 // Перемещение фигур в углы (по одной в каждом углу)
 function moveShapesToCorners() {
     const corners = [
-        { top: '15%', left: '15%' },     // Левый верхний
-        { top: '15%', left: '85%' },     // Правый верхний
-        { top: '85%', left: '15%' },     // Левый нижний
-        { top: '85%', left: '85%' }      // Правый нижний
+        { top: '15%', left: '15%' },
+        { top: '15%', left: '85%' },
+        { top: '85%', left: '15%' },
+        { top: '85%', left: '85%' }
     ];
     
     const shapeIds = Object.keys(shapesConfig);
-    
-    // Перемешиваем массив углов
     const shuffledCorners = [...corners].sort(() => Math.random() - 0.5);
     
     shapeIds.forEach((shapeId, index) => {
@@ -197,14 +167,12 @@ function moveShapesToCorners() {
 function appendCharacter(char) {
     const result = document.getElementById('result');
     result.value += char;
-    // При нажатии любой кнопки - случайное перемещение
     moveShapesRandom();
 }
 
 function clearResult() {
     const result = document.getElementById('result');
     result.value = '';
-    // При очистке - перемещение в центр
     moveShapesToCenter();
 }
 
@@ -212,11 +180,33 @@ function calculateResult() {
     const result = document.getElementById('result');
     try {
         result.value = eval(result.value);
-        // При вычислении - перемещение в углы
         moveShapesToCorners();
     } catch (error) {
         result.value = 'Error';
-        // При ошибке тоже перемещаем в углы
         moveShapesToCorners();
     }
 }
+
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    initializeShapes();
+    
+    // Добавляем обработчики для мобильных устройств
+    const calcButtons = document.querySelectorAll('.calc-btn');
+    calcButtons.forEach(button => {
+        // Обработчик для touch устройств
+        button.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            this.style.transform = 'scale(0.95)';
+        });
+        
+        button.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            this.style.transform = 'scale(1)';
+        });
+        
+        button.addEventListener('touchcancel', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+});
